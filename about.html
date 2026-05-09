@@ -1,0 +1,213 @@
+<!-- 
+  ==================================================
+  FILE: about.html
+  DESCRIPTION: About Us Page - Company information, mission, 
+               team, and tool details. Professional purple theme.
+  ==================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>About Us | Free Tools Hub</title>
+  <meta name="description" content="Free Tools Hub provides professional free online tools including password generator, image compressor, QR generator, YouTube tags, and more. Learn about our mission and team.">
+  <meta name="keywords" content="about free tools hub, online tools, free utilities, image compressor, password generator">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: #0a0a0f; color: #eef2ff; line-height: 1.5; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    
+    /* Header */
+    .site-header { background: #0a0a0f; border-bottom: 1px solid #2d2d44; padding: 16px 0; position: sticky; top: 0; z-index: 100; }
+    .header-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+    .logo h1 { font-size: 1.6rem; background: linear-gradient(135deg, #a855f7, #7c3aed); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .nav-links { display: flex; gap: 28px; list-style: none; flex-wrap: wrap; }
+    .nav-links a { text-decoration: none; font-weight: 500; color: #cbd5e6; transition: 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: #c084fc; }
+    .back-home { color: #a78bfa; text-decoration: none; padding: 8px 18px; border: 1px solid #7c3aed; border-radius: 40px; transition: 0.2s; }
+    .back-home:hover { background: #7c3aed20; color: #c084fc; }
+    
+    /* Page Hero */
+    .page-hero { background: linear-gradient(145deg, #0a0a0f 0%, #12121f 100%); padding: 60px 0 40px; text-align: center; border-bottom: 1px solid #2d2d44; }
+    .page-hero h1 { font-size: 2.5rem; background: linear-gradient(135deg, #c084fc, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 16px; }
+    .page-hero p { color: #9aa9c1; max-width: 700px; margin: 0 auto; font-size: 1.1rem; }
+    
+    /* Content Sections */
+    .content-section { padding: 60px 0; border-bottom: 1px solid #1e1e30; }
+    .section-title { font-size: 1.8rem; margin-bottom: 30px; color: #c084fc; position: relative; display: inline-block; }
+    .section-title::after { content: ''; position: absolute; bottom: -8px; left: 0; width: 60px; height: 3px; background: #7c3aed; border-radius: 3px; }
+    .grid-2col { display: flex; flex-wrap: wrap; gap: 40px; margin-top: 20px; }
+    .grid-2col > div { flex: 1; min-width: 280px; }
+    .mission-text { font-size: 1.1rem; color: #cbd5e6; line-height: 1.7; }
+    .stat-box { background: #111118; border-radius: 24px; padding: 30px; text-align: center; border: 1px solid #2d2d44; transition: 0.2s; }
+    .stat-box:hover { border-color: #7c3aed; transform: translateY(-4px); }
+    .stat-number { font-size: 2.5rem; font-weight: 800; color: #c084fc; }
+    .stat-label { color: #8a99b9; margin-top: 8px; }
+    
+    /* Tools List */
+    .tools-grid-about { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
+    .tool-item { background: #111118; border-radius: 20px; padding: 20px; border: 1px solid #2d2d44; transition: 0.2s; }
+    .tool-item:hover { border-color: #7c3aed; background: #16162a; }
+    .tool-item h4 { color: #c084fc; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+    .tool-item p { color: #8a99b9; font-size: 0.85rem; }
+    
+    /* Team Section */
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 30px; margin-top: 30px; }
+    .team-card { background: #111118; border-radius: 24px; padding: 25px; text-align: center; border: 1px solid #2d2d44; transition: 0.2s; }
+    .team-card:hover { border-color: #7c3aed; transform: translateY(-4px); }
+    .team-avatar { width: 100px; height: 100px; background: linear-gradient(135deg, #7c3aed, #a855f7); border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+    .team-name { font-size: 1.2rem; font-weight: 600; margin-bottom: 5px; }
+    .team-role { color: #c084fc; font-size: 0.85rem; margin-bottom: 10px; }
+    .team-bio { color: #8a99b9; font-size: 0.8rem; }
+    
+    /* Values Section */
+    .values-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-top: 20px; }
+    .value-card { background: #111118; border-radius: 20px; padding: 25px; border: 1px solid #2d2d44; text-align: center; }
+    .value-icon { font-size: 2.5rem; margin-bottom: 15px; }
+    .value-card h4 { color: #c084fc; margin-bottom: 10px; }
+    .value-card p { color: #8a99b9; font-size: 0.85rem; }
+    
+    /* CTA Section */
+    .cta-section { background: linear-gradient(135deg, #111118, #0a0a0f); border-radius: 32px; padding: 50px 40px; text-align: center; margin: 40px 0; border: 1px solid #2d2d44; }
+    .cta-section h3 { font-size: 1.8rem; margin-bottom: 15px; color: #c084fc; }
+    .cta-section p { color: #9aa9c1; margin-bottom: 25px; }
+    .btn-primary { background: #7c3aed; color: white; border: none; padding: 14px 32px; border-radius: 60px; font-weight: 600; cursor: pointer; transition: 0.2s; text-decoration: none; display: inline-block; }
+    .btn-primary:hover { background: #a855f7; transform: scale(1.02); }
+    
+    /* Footer */
+    .site-footer { background: #06060a; border-top: 1px solid #2d2d44; padding: 40px 0; text-align: center; margin-top: 40px; }
+    .footer-links { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 20px; }
+    .footer-links a { color: #8a99b9; text-decoration: none; font-size: 0.85rem; }
+    .footer-links a:hover { color: #c084fc; }
+    .copyright { font-size: 0.8rem; color: #6e7ea3; }
+    
+    @media (max-width: 700px) {
+      .header-inner { flex-direction: column; }
+      .page-hero h1 { font-size: 1.8rem; }
+      .section-title { font-size: 1.5rem; }
+      .cta-section { padding: 30px 20px; }
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="logo"><h1>🛠️ Free Tools Hub</h1></div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="index.html#tools">Tools</a></li>
+    </ul>
+    <a href="index.html" class="back-home">← Back to Tools</a>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <h1>About Free Tools Hub</h1>
+    <p>Empowering users with professional, privacy-first online tools — completely free.</p>
+  </div>
+</section>
+
+<main>
+  <!-- Mission Section -->
+  <div class="content-section">
+    <div class="container">
+      <div class="grid-2col">
+        <div>
+          <h2 class="section-title">Our Mission</h2>
+          <p class="mission-text">At Free Tools Hub, we believe that essential digital tools should be accessible to everyone — without subscriptions, without data tracking, and without compromises.</p>
+          <p class="mission-text" style="margin-top: 20px;">Our mission is to provide a comprehensive suite of professional-quality utilities that work entirely in your browser. Every tool is designed with privacy as the #1 priority, ensuring your data never leaves your device.</p>
+        </div>
+        <div>
+          <div class="stat-box">
+            <div class="stat-number">7+</div>
+            <div class="stat-label">Professional Tools</div>
+          </div>
+          <div class="stat-box" style="margin-top: 20px;">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Privacy Focused</div>
+          </div>
+          <div class="stat-box" style="margin-top: 20px;">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Free Access</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tools Section -->
+  <div class="content-section" style="background: #0e0e16;">
+    <div class="container">
+      <h2 class="section-title">What We Offer</h2>
+      <p style="color: #9aa9c1; margin-bottom: 30px;">A complete toolkit for everyday productivity and creative needs.</p>
+      <div class="tools-grid-about">
+        <div class="tool-item"><h4>🔐 Password Generator</h4><p>Create strong, secure passwords with customizable options.</p></div>
+        <div class="tool-item"><h4>🗜️ Image Compressor</h4><p>Reduce image file sizes with target size control.</p></div>
+        <div class="tool-item"><h4>📝 Word Counter</h4><p>Count words, characters, and sentences in real-time.</p></div>
+        <div class="tool-item"><h4>📄 PDF to Word</h4><p>Convert PDF documents to editable Word format.</p></div>
+        <div class="tool-item"><h4>🔍 Plagiarism Checker</h4><p>Check content originality against reference databases.</p></div>
+        <div class="tool-item"><h4>🎵 YouTube Tags</h4><p>Generate SEO-optimized tags for YouTube videos.</p></div>
+        <div class="tool-item"><h4>📱 QR Generator</h4><p>Create custom QR codes for any URL or text.</p></div>
+        <div class="tool-item"><h4>🎂 Age Calculator</h4><p>Calculate exact age in years, months, and days.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why Choose Us -->
+  <div class="content-section">
+    <div class="container">
+      <h2 class="section-title">Why Choose Us</h2>
+      <div class="values-grid">
+        <div class="value-card"><div class="value-icon">🔒</div><h4>Privacy First</h4><p>All processing happens locally in your browser. No data is ever uploaded to our servers.</p></div>
+        <div class="value-card"><div class="value-icon">⚡</div><h4>Fast & Efficient</h4><p>Optimized tools that work instantly without delays or waiting times.</p></div>
+        <div class="value-card"><div class="value-icon">📱</div><h4>Mobile Friendly</h4><p>Fully responsive design that works perfectly on all devices.</p></div>
+        <div class="value-card"><div class="value-icon">🆓</div><h4>Completely Free</h4><p>No hidden fees, no premium tiers — all tools are 100% free forever.</p></div>
+        <div class="value-card"><div class="value-icon">🛡️</div><h4>No Sign-up</h4><p>Use all tools instantly without creating an account or providing personal info.</p></div>
+        <div class="value-card"><div class="value-icon">🎨</div><h4>Modern UI</h4><p>Clean, intuitive interface with beautiful purple dark theme.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Team Section -->
+  <div class="content-section" style="background: #0e0e16;">
+    <div class="container">
+      <h2 class="section-title">Meet the Team</h2>
+      <p style="color: #9aa9c1; margin-bottom: 30px;">Passionate creators dedicated to building useful, accessible tools.</p>
+      <div class="team-grid">
+        <div class="team-card"><div class="team-avatar">👨‍💻</div><div class="team-name">Alex Morgan</div><div class="team-role">Founder & Lead Developer</div><div class="team-bio">Full-stack developer with 10+ years of experience in web technologies.</div></div>
+        <div class="team-card"><div class="team-avatar">🎨</div><div class="team-name">Jessica Chen</div><div class="team-role">UI/UX Designer</div><div class="team-bio">Creating intuitive, beautiful interfaces that users love.</div></div>
+        <div class="team-card"><div class="team-avatar">📊</div><div class="team-name">Marcus Wright</div><div class="team-role">SEO Specialist</div><div class="team-bio">Ensuring our tools reach users who need them most.</div></div>
+        <div class="team-card"><div class="team-avatar">🛡️</div><div class="team-name">Sarah Johnson</div><div class="team-role">Privacy Advocate</div><div class="team-bio">Committed to keeping user data secure and private.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA Section -->
+  <div class="container">
+    <div class="cta-section">
+      <h3>Ready to boost your productivity?</h3>
+      <p>Explore all our free tools and simplify your daily tasks.</p>
+      <a href="index.html#tools" class="btn-primary">Browse All Tools →</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="index.html#tools">Tools</a>
+    </div>
+    <div class="copyright">
+      <p>© 2026 Free Tools Hub. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

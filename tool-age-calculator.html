@@ -1,0 +1,125 @@
+<!-- 
+  ==================================================
+  FILE: tool-age-calculator.html
+  DESCRIPTION: Age Calculator Tool Page (Years/Months/Days)
+  ==================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Age Calculator | Free Tools Hub</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #0a0a0f; color: #eef2ff; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    .site-header { background: #0a0a0f; border-bottom: 1px solid #2d2d44; padding: 16px 0; position: sticky; top: 0; z-index: 100; }
+    .header-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+    .logo h1 { font-size: 1.6rem; background: linear-gradient(135deg, #a855f7, #7c3aed); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .back-home { color: #a78bfa; text-decoration: none; padding: 8px 18px; border: 1px solid #7c3aed; border-radius: 40px; transition: 0.2s; }
+    .back-home:hover { background: #7c3aed20; color: #c084fc; }
+    .tool-hero { padding: 40px 0 24px; }
+    .tool-card { background: #111118; border-radius: 32px; border: 1px solid #2d2d44; padding: 40px; margin: 20px 0 60px; text-align: center; }
+    .tool-title { font-size: 2rem; margin-bottom: 28px; display: flex; gap: 12px; align-items: center; justify-content: center; color: #c084fc; }
+    .input-group { margin-bottom: 30px; display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; align-items: center; }
+    label { font-size: 1rem; font-weight: 500; color: #cbd5e6; }
+    input, button { font-family: inherit; border-radius: 60px; border: none; padding: 14px 24px; }
+    input { background: #0a0a0f; border: 1px solid #7c3aed; color: white; font-size: 1rem; }
+    button { background: #7c3aed; color: white; font-weight: 600; cursor: pointer; transition: 0.2s; }
+    button:hover { background: #a855f7; transform: scale(1.02); }
+    .result-box { background: #0e0e16; border: 1px solid #7c3aed40; padding: 28px; border-radius: 28px; margin-top: 25px; font-size: 1.3rem; font-weight: 500; word-break: break-word; }
+    .result-box span { color: #c084fc; font-size: 1.8rem; font-weight: bold; display: inline-block; margin: 0 4px; }
+    .site-footer { background: #06060a; border-top: 1px solid #2d2d44; padding: 40px 0; text-align: center; margin-top: 40px; }
+    .note { font-size: 0.8rem; color: #8a99b9; margin-top: 20px; }
+    @media (max-width: 640px) { .tool-card { padding: 24px; } .result-box { font-size: 1rem; } }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="logo"><h1>🛠️ Free Tools Hub</h1></div>
+    <a href="index.html" class="back-home">← Back to Tools</a>
+  </div>
+</header>
+<main class="container">
+  <div class="tool-hero">
+    <h2>🎂 Age Calculator</h2>
+    <p>Know your exact age in years, months, and days</p>
+  </div>
+  <div class="tool-card">
+    <div class="tool-title"><span>📅</span> Calculate Your Age</div>
+    <div class="input-group">
+      <label>Select Birth Date:</label>
+      <input type="date" id="birthDate" style="min-width: 200px;">
+    </div>
+    <button id="calculateBtn">Calculate Age</button>
+    <div class="result-box" id="ageResult">
+      Your age will appear here
+    </div>
+    <div class="note">✨ Accurate calculation considering months and days difference.</div>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <p>© 2026 Free Tools Hub — Precise Age Calculator Tool</p>
+  </div>
+</footer>
+<script>
+  const calculateBtn = document.getElementById('calculateBtn');
+  const birthDateInput = document.getElementById('birthDate');
+  const ageResultDiv = document.getElementById('ageResult');
+
+  function calculateAge() {
+    const birthValue = birthDateInput.value;
+    if (!birthValue) {
+      ageResultDiv.innerHTML = '⚠️ Please select your birth date.';
+      return;
+    }
+    
+    const birth = new Date(birthValue);
+    const today = new Date();
+    
+    // Validate if birth date is in future
+    if (birth > today) {
+      ageResultDiv.innerHTML = '❌ Birth date cannot be in the future.';
+      return;
+    }
+    
+    let years = today.getFullYear() - birth.getFullYear();
+    let months = today.getMonth() - birth.getMonth();
+    let days = today.getDate() - birth.getDate();
+    
+    // Adjust days
+    if (days < 0) {
+      months--;
+      const lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+      days += lastMonth.getDate();
+    }
+    
+    // Adjust months
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+    
+    // Format output
+    ageResultDiv.innerHTML = `
+      🎉 You are <span>${years}</span> years, 
+      <span>${months}</span> months, and 
+      <span>${days}</span> days old.
+      <div style="font-size: 0.9rem; margin-top: 15px; color: #a78bfa;">
+        📅 Born on: ${birth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+      </div>
+    `;
+  }
+  
+  calculateBtn.addEventListener('click', calculateAge);
+  
+  // Optional: Calculate on Enter key or when date changes? but keeping as per requirement
+  birthDateInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') calculateAge();
+  });
+</script>
+</body>
+</html>

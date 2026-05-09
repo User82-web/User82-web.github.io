@@ -1,0 +1,463 @@
+<!-- 
+  ==================================================
+  FILE: tool-youtube-tags.html
+  DESCRIPTION: YouTube Tag Generator - Generate SEO-optimized
+               tags for YouTube videos based on keywords.
+  ==================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>YouTube Tag Generator | Free Tools Hub</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: #0a0a0f; color: #eef2ff; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .site-header { background: #0a0a0f; border-bottom: 1px solid #2d2d44; padding: 16px 0; position: sticky; top: 0; z-index: 100; }
+    .header-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+    .logo h1 { font-size: 1.6rem; background: linear-gradient(135deg, #a855f7, #7c3aed); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .back-home { color: #a78bfa; text-decoration: none; padding: 8px 18px; border: 1px solid #7c3aed; border-radius: 40px; transition: 0.2s; }
+    .back-home:hover { background: #7c3aed20; color: #c084fc; }
+    .tool-hero { padding: 30px 0 20px; }
+    .tool-hero h2 { font-size: 2rem; background: linear-gradient(135deg, #c084fc, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
+    .tool-hero p { color: #9aa9c1; }
+    .tool-card { background: #111118; border-radius: 32px; border: 1px solid #2d2d44; padding: 32px; margin: 20px 0 50px; }
+    .input-group { margin-bottom: 25px; }
+    label { display: block; margin-bottom: 10px; font-weight: 600; color: #cbd5e6; }
+    label span { color: #c084fc; }
+    .keyword-input-wrapper { display: flex; gap: 15px; flex-wrap: wrap; }
+    .keyword-input-wrapper input { flex: 1; background: #0a0a0f; border: 1px solid #7c3aed; border-radius: 60px; padding: 14px 20px; color: white; font-size: 1rem; font-family: inherit; }
+    .keyword-input-wrapper input:focus { outline: none; border-color: #c084fc; box-shadow: 0 0 0 2px #7c3aed40; }
+    .btn-primary { background: #7c3aed; color: white; border: none; padding: 14px 28px; border-radius: 60px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 1rem; }
+    .btn-primary:hover { background: #a855f7; transform: scale(1.02); }
+    .btn-secondary { background: #1e1e30; color: #c084fc; border: 1px solid #7c3aed; padding: 12px 24px; border-radius: 60px; font-weight: 500; cursor: pointer; transition: 0.2s; }
+    .btn-secondary:hover { background: #2d2d44; }
+    .options-row { display: flex; flex-wrap: wrap; gap: 20px; margin: 20px 0; align-items: center; justify-content: space-between; }
+    .select-style { background: #0a0a0f; border: 1px solid #7c3aed; border-radius: 60px; padding: 10px 16px; color: white; cursor: pointer; }
+    .checkbox-group { display: flex; align-items: center; gap: 10px; }
+    .checkbox-group input { width: 18px; height: 18px; cursor: pointer; accent-color: #7c3aed; }
+    .tags-result { background: #0e0e16; border-radius: 24px; padding: 24px; margin-top: 25px; border: 1px solid #2d2d44; }
+    .tags-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; }
+    .tags-header h3 { color: #c084fc; }
+    .tag-count { background: #7c3aed; padding: 4px 12px; border-radius: 40px; font-size: 0.8rem; }
+    .tags-list { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 25px; }
+    .tag { background: #1a1a2e; border: 1px solid #3d3d5c; padding: 8px 18px; border-radius: 40px; font-size: 0.85rem; color: #e2e8f0; transition: 0.2s; cursor: pointer; }
+    .tag:hover { background: #7c3aed; border-color: #c084fc; transform: scale(1.02); }
+    .tag-copied { background: #10b981; border-color: #34d399; }
+    .action-buttons { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px; }
+    .copy-all-btn { background: #1e1e30; color: #c084fc; border: 1px solid #7c3aed; padding: 12px 24px; border-radius: 60px; font-weight: 500; cursor: pointer; transition: 0.2s; }
+    .copy-all-btn:hover { background: #2d2d44; }
+    .suggestions-section { margin-top: 25px; padding-top: 20px; border-top: 1px solid #2d2d44; }
+    .suggestions-title { font-size: 0.9rem; color: #8a99b9; margin-bottom: 12px; }
+    .suggestion-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .suggestion-chip { background: #1a1a2e; padding: 5px 12px; border-radius: 30px; font-size: 0.75rem; color: #a78bfa; cursor: pointer; transition: 0.2s; }
+    .suggestion-chip:hover { background: #7c3aed; color: white; }
+    .seo-tips { background: #0a0a0f; border-radius: 20px; padding: 18px; margin-top: 20px; border-left: 4px solid #7c3aed; }
+    .seo-tips h4 { color: #c084fc; margin-bottom: 8px; font-size: 0.9rem; }
+    .seo-tips p { font-size: 0.8rem; color: #9aa9c1; line-height: 1.5; }
+    .stats-row { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
+    .stat-box { background: #1a1a2e; padding: 12px 20px; border-radius: 20px; flex: 1; text-align: center; }
+    .stat-value { font-size: 1.3rem; font-weight: 700; color: #c084fc; }
+    .stat-label { font-size: 0.7rem; color: #8a99b9; }
+    .site-footer { background: #06060a; border-top: 1px solid #2d2d44; padding: 40px 0; text-align: center; margin-top: 40px; }
+    @media (max-width: 700px) {
+      .header-inner { flex-direction: column; }
+      .tool-card { padding: 20px; }
+      .keyword-input-wrapper { flex-direction: column; }
+      .options-row { flex-direction: column; align-items: flex-start; }
+      .action-buttons { flex-direction: column; }
+      .tag { font-size: 0.75rem; padding: 6px 14px; }
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="logo"><h1>🛠️ Free Tools Hub</h1></div>
+    <a href="index.html" class="back-home">← Back to Tools</a>
+  </div>
+</header>
+
+<main class="container">
+  <div class="tool-hero">
+    <h2>🎵 YouTube Tag Generator</h2>
+    <p>Get SEO-optimized hashtags and keywords for your YouTube videos. Increase views and discoverability!</p>
+  </div>
+
+  <div class="tool-card">
+    <div class="input-group">
+      <label>🔑 <span>Enter Your Main Keyword</span></label>
+      <div class="keyword-input-wrapper">
+        <input type="text" id="keywordInput" placeholder="e.g., web development, cooking tips, gaming, vlog, fitness" value="productivity tips">
+        <button class="btn-primary" id="generateBtn">✨ Generate Tags</button>
+      </div>
+    </div>
+
+    <div class="options-row">
+      <div class="checkbox-group">
+        <input type="checkbox" id="addHashtags" checked>
+        <label style="margin:0;">Add # Hashtags Format</label>
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="addLongtail" checked>
+        <label style="margin:0;">Add Long-Tail Keywords</label>
+      </div>
+      <select id="tagCount" class="select-style">
+        <option value="10">10 Tags</option>
+        <option value="15" selected>15 Tags (Recommended)</option>
+        <option value="20">20 Tags</option>
+        <option value="25">25 Tags</option>
+      </select>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-value" id="generatedCount">0</div>
+        <div class="stat-label">Tags Generated</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="charTotal">0</div>
+        <div class="stat-label">Total Characters</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="avgLength">0</div>
+        <div class="stat-label">Avg Tag Length</div>
+      </div>
+    </div>
+
+    <div id="tagsResult" class="tags-result">
+      <div class="tags-header">
+        <h3>🏷️ Your YouTube Tags</h3>
+        <span class="tag-count" id="tagCountDisplay">0 tags</span>
+      </div>
+      <div id="tagsList" class="tags-list">
+        <p style="color: #6e7ea3;">Enter a keyword and click "Generate Tags" to get SEO-optimized tags.</p>
+      </div>
+      <div class="action-buttons">
+        <button class="copy-all-btn" id="copyAllBtn">📋 Copy All Tags</button>
+        <button class="copy-all-btn" id="copyHashtagBtn">#️⃣ Copy as Hashtags</button>
+        <button class="btn-secondary" id="clearBtn">🗑️ Clear All</button>
+      </div>
+    </div>
+
+    <div class="suggestions-section">
+      <div class="suggestions-title">🔥 Popular Keywords / Try These:</div>
+      <div class="suggestion-chips" id="suggestionChips">
+        <span class="suggestion-chip" data-keyword="gaming">gaming</span>
+        <span class="suggestion-chip" data-keyword="vlog">vlog</span>
+        <span class="suggestion-chip" data-keyword="cooking">cooking</span>
+        <span class="suggestion-chip" data-keyword="fitness">fitness</span>
+        <span class="suggestion-chip" data-keyword="tech review">tech review</span>
+        <span class="suggestion-chip" data-keyword="travel">travel</span>
+        <span class="suggestion-chip" data-keyword="music">music</span>
+        <span class="suggestion-chip" data-keyword="motivation">motivation</span>
+      </div>
+    </div>
+
+    <div class="seo-tips">
+      <h4>📈 YouTube SEO Tips:</h4>
+      <p>• Use your main keyword in title, description, and first 3 tags<br>
+      • Aim for 10-15 relevant tags per video (don't overstuff)<br>
+      • Mix broad keywords + specific long-tail phrases<br>
+      • Check what tags competitors are using<br>
+      • Update tags when video performance drops</p>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© 2026 Free Tools Hub — Smart YouTube Tag Generator for SEO Success</p>
+  </div>
+</footer>
+
+<script>
+  // Extended tag database for various niches
+  const tagDatabase = {
+    // Generic expansions for any keyword
+    getBaseTags: (keyword) => {
+      const k = keyword.toLowerCase().trim();
+      return [
+        k,
+        `${k} tips`,
+        `${k} tutorial`,
+        `${k} guide`,
+        `best ${k}`,
+        `${k} 2026`,
+        `how to ${k}`,
+        `learn ${k}`,
+        `${k} for beginners`,
+        `${k} ideas`,
+        `easy ${k}`,
+        `${k} hack`,
+        `${k} tricks`,
+        `${k} secrets`,
+        `${k} masterclass`,
+        `top ${k}`,
+        `amazing ${k}`,
+        `${k} skills`,
+        `${k} strategies`,
+        `${k} tools`
+      ];
+    },
+    
+    // Long-tail variations
+    getLongtailTags: (keyword) => {
+      const k = keyword.toLowerCase().trim();
+      const prefixes = ['ultimate', 'complete', 'advanced', 'simple', 'fast', 'professional', 'creative', 'amazing'];
+      const suffixes = ['step by step', '2026 update', 'explained', 'walkthrough', 'for beginners', 'pro tips', 'full course'];
+      
+      let tags = [];
+      prefixes.forEach(p => tags.push(`${p} ${k}`));
+      suffixes.forEach(s => tags.push(`${k} ${s}`));
+      tags.push(`${k} tutorial for beginners`);
+      tags.push(`${k} guide 2026`);
+      tags.push(`how to ${k} easily`);
+      tags.push(`${k} mastery`);
+      return tags;
+    },
+    
+    // Niche-specific tags (enhanced for popular categories)
+    getNicheSpecificTags: (keyword) => {
+      const k = keyword.toLowerCase();
+      const nicheTags = {
+        'gaming': ['gameplay', 'walkthrough', 'let\'s play', 'gamer', 'twitch', 'esports', 'gaming community', 'new game', 'boss fight', 'multiplayer'],
+        'cooking': ['recipe', 'easy recipe', 'home cooking', 'chef', 'foodie', 'kitchen hacks', 'meal prep', 'healthy recipes', 'baking', 'quick meals'],
+        'fitness': ['workout', 'exercise', 'gym', 'home workout', 'fitness motivation', 'weight loss', 'muscle building', 'yoga', 'cardio', 'training'],
+        'tech review': ['tech', 'gadget', 'unboxing', 'review', 'smartphone', 'laptop', 'tech news', 'comparison', 'android', 'apple'],
+        'travel': ['travel vlog', 'adventure', 'wanderlust', 'vacation', 'hotel', 'flight', 'backpacking', 'travel tips', 'destinations', 'road trip'],
+        'music': ['song', 'cover', 'original', 'instrumental', 'remix', 'playlist', 'music video', 'singer', 'producer', 'studio session'],
+        'motivation': ['inspiration', 'success', 'mindset', 'motivational speech', 'life advice', 'goals', 'productivity', 'self improvement', 'mindfulness'],
+        'productivity': ['time management', 'workflow', 'efficiency', 'organization', 'focus', 'study tips', 'work from home', 'habits', 'planner', 'get things done']
+      };
+      
+      for (let [niche, tags] of Object.entries(nicheTags)) {
+        if (k.includes(niche) || niche.includes(k)) {
+          return tags.map(t => `${k} ${t}`);
+        }
+      }
+      return [];
+    }
+  };
+  
+  let currentTags = [];
+  
+  function generateTags() {
+    let keyword = document.getElementById('keywordInput').value.trim();
+    if (!keyword) {
+      alert('Please enter a keyword to generate tags.');
+      return;
+    }
+    
+    const addHashtags = document.getElementById('addHashtags').checked;
+    const addLongtail = document.getElementById('addLongtail').checked;
+    const maxTags = parseInt(document.getElementById('tagCount').value);
+    
+    // Convert to lowercase for consistency
+    keyword = keyword.toLowerCase();
+    
+    // Generate tag pool
+    let tagPool = [];
+    
+    // Add base tags
+    tagPool.push(...tagDatabase.getBaseTags(keyword));
+    
+    // Add long-tail tags if selected
+    if (addLongtail) {
+      tagPool.push(...tagDatabase.getLongtailTags(keyword));
+    }
+    
+    // Add niche-specific tags
+    tagPool.push(...tagDatabase.getNicheSpecificTags(keyword));
+    
+    // Add common high-CTR variations
+    tagPool.push(`${keyword} viral`);
+    tagPool.push(`${keyword} trending`);
+    tagPool.push(`${keyword} shorts`);
+    tagPool.push(`watch ${keyword}`);
+    tagPool.push(`new ${keyword} video`);
+    tagPool.push(`${keyword} content`);
+    
+    // Remove duplicates and empty strings
+    tagPool = [...new Set(tagPool)];
+    tagPool = tagPool.filter(tag => tag && tag.length > 0);
+    
+    // Remove keyword itself if it's too short (optional)
+    // Shuffle and take top N
+    const shuffled = [...tagPool];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    
+    currentTags = shuffled.slice(0, maxTags);
+    
+    // Format tags based on hashtag preference
+    let displayTags = [...currentTags];
+    if (addHashtags) {
+      displayTags = displayTags.map(tag => tag.startsWith('#') ? tag : `#${tag.replace(/\s+/g, '')}`);
+    }
+    
+    // Render tags
+    renderTags(displayTags);
+    updateStats(currentTags);
+  }
+  
+  function renderTags(tags) {
+    const tagsListDiv = document.getElementById('tagsList');
+    const tagCountDisplay = document.getElementById('tagCountDisplay');
+    
+    if (!tags || tags.length === 0) {
+      tagsListDiv.innerHTML = '<p style="color: #6e7ea3;">No tags generated. Try a different keyword.</p>';
+      tagCountDisplay.innerText = '0 tags';
+      return;
+    }
+    
+    tagCountDisplay.innerText = `${tags.length} tags`;
+    
+    let html = '';
+    tags.forEach((tag, index) => {
+      html += `<span class="tag" data-tag="${tag.replace(/"/g, '&quot;')}" data-original="${currentTags[index]}">${tag}</span>`;
+    });
+    
+    tagsListDiv.innerHTML = html;
+    
+    // Add click-to-copy functionality to each tag
+    document.querySelectorAll('.tag').forEach(tagElement => {
+      tagElement.addEventListener('click', async function(e) {
+        e.stopPropagation();
+        const tagText = this.getAttribute('data-tag');
+        try {
+          await navigator.clipboard.writeText(tagText);
+          const originalText = this.innerText;
+          this.innerText = '✓ Copied!';
+          this.classList.add('tag-copied');
+          setTimeout(() => {
+            this.innerText = originalText;
+            this.classList.remove('tag-copied');
+          }, 1500);
+        } catch (err) {
+          alert('Press Ctrl+C to copy');
+        }
+      });
+    });
+  }
+  
+  function updateStats(tags) {
+    const generatedCount = document.getElementById('generatedCount');
+    const charTotal = document.getElementById('charTotal');
+    const avgLength = document.getElementById('avgLength');
+    
+    generatedCount.innerText = tags.length;
+    
+    let totalChars = 0;
+    tags.forEach(tag => totalChars += tag.length);
+    charTotal.innerText = totalChars;
+    
+    const avg = tags.length > 0 ? Math.round(totalChars / tags.length) : 0;
+    avgLength.innerText = avg;
+  }
+  
+  function copyAllTags() {
+    const addHashtags = document.getElementById('addHashtags').checked;
+    let tagsToCopy = [...currentTags];
+    
+    if (addHashtags) {
+      tagsToCopy = tagsToCopy.map(tag => tag.startsWith('#') ? tag : `#${tag.replace(/\s+/g, '')}`);
+    }
+    
+    const tagsText = tagsToCopy.join(', ');
+    
+    if (!tagsText) {
+      alert('Generate tags first before copying.');
+      return;
+    }
+    
+    navigator.clipboard.writeText(tagsText).then(() => {
+      const copyBtn = document.getElementById('copyAllBtn');
+      const originalText = copyBtn.innerText;
+      copyBtn.innerText = '✓ Copied!';
+      copyBtn.style.background = '#10b981';
+      setTimeout(() => {
+        copyBtn.innerText = originalText;
+        copyBtn.style.background = '#1e1e30';
+      }, 2000);
+    }).catch(() => {
+      alert('Press Ctrl+C to copy: ' + tagsText);
+    });
+  }
+  
+  function copyAsHashtags() {
+    if (!currentTags.length) {
+      alert('Generate tags first.');
+      return;
+    }
+    
+    const hashtags = currentTags.map(tag => `#${tag.replace(/\s+/g, '')}`);
+    const hashtagString = hashtags.join(' ');
+    
+    navigator.clipboard.writeText(hashtagString).then(() => {
+      const btn = document.getElementById('copyHashtagBtn');
+      const originalText = btn.innerText;
+      btn.innerText = '✓ Hashtags Copied!';
+      btn.style.background = '#10b981';
+      setTimeout(() => {
+        btn.innerText = originalText;
+        btn.style.background = '#1e1e30';
+      }, 2000);
+    }).catch(() => {
+      alert('Copy manually: ' + hashtagString);
+    });
+  }
+  
+  function clearAll() {
+    document.getElementById('keywordInput').value = '';
+    currentTags = [];
+    document.getElementById('tagsList').innerHTML = '<p style="color: #6e7ea3;">Enter a keyword and click "Generate Tags" to get SEO-optimized tags.</p>';
+    document.getElementById('tagCountDisplay').innerText = '0 tags';
+    document.getElementById('generatedCount').innerText = '0';
+    document.getElementById('charTotal').innerText = '0';
+    document.getElementById('avgLength').innerText = '0';
+  }
+  
+  // Load suggestion keyword
+  function loadSuggestion(keyword) {
+    document.getElementById('keywordInput').value = keyword;
+    generateTags();
+  }
+  
+  // Event Listeners
+  document.getElementById('generateBtn').addEventListener('click', generateTags);
+  document.getElementById('copyAllBtn').addEventListener('click', copyAllTags);
+  document.getElementById('copyHashtagBtn').addEventListener('click', copyAsHashtags);
+  document.getElementById('clearBtn').addEventListener('click', clearAll);
+  
+  // Suggestion chips
+  document.querySelectorAll('.suggestion-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const keyword = chip.getAttribute('data-keyword');
+      loadSuggestion(keyword);
+    });
+  });
+  
+  // Enter key support
+  document.getElementById('keywordInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      generateTags();
+    }
+  });
+  
+  // Regenerate when options change (optional)
+  document.getElementById('addHashtags').addEventListener('change', generateTags);
+  document.getElementById('addLongtail').addEventListener('change', generateTags);
+  document.getElementById('tagCount').addEventListener('change', generateTags);
+  
+  // Generate initial tags on page load
+  window.addEventListener('load', () => {
+    generateTags();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!-- 
+  ==================================================
+  FILE: tool-pdf-to-word.html
+  DESCRIPTION: PDF to Word Generator (Simulated Conversion)
+  ==================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>PDF to Word | Free Tools Hub</title><style>
+*{margin:0;padding:0;box-sizing:border-box;}body{background:#0a0a0f;color:#eef2ff;font-family:'Inter',sans-serif;}.container{max-width:1000px;margin:0 auto;padding:0 24px;}.site-header{background:#0a0a0f;border-bottom:1px solid #2d2d44;padding:16px 0;}.header-inner{display:flex;justify-content:space-between;align-items:center;}.logo h1{font-size:1.6rem;background:linear-gradient(135deg,#a855f7,#7c3aed);-webkit-background-clip:text;background-clip:text;color:transparent;}.back-home{color:#a78bfa;text-decoration:none;padding:8px 18px;border:1px solid #7c3aed;border-radius:40px;}.tool-card{background:#111118;border-radius:32px;border:1px solid #2d2d44;padding:40px;margin:30px 0;text-align:center;}input,button{padding:12px 20px;border-radius:60px;border:none;margin:12px;}input{background:#0a0a0f;border:1px solid #7c3aed;color:white;}button{background:#7c3aed;color:white;cursor:pointer;}button:hover{background:#a855f7;}.result{background:#0e0e16;border-radius:28px;padding:20px;margin-top:30px;}.site-footer{background:#06060a;padding:40px;text-align:center;margin-top:40px;}</style></head>
+<body><header class="site-header"><div class="container header-inner"><div><h1 style="background:linear-gradient(135deg,#a855f7,#7c3aed);-webkit-background-clip:text;background-clip:text;color:transparent;">🛠️ Free Tools Hub</h1></div><a href="index.html" class="back-home">← Tools</a></div></header>
+<main class="container"><h2 style="margin:30px 0 0">📄 PDF to Word Converter</h2><p>Upload PDF and get editable Word document (simulated conversion)</p><div class="tool-card"><input type="file" id="pdfInput" accept=".pdf"><button id="convertBtn">Convert to Word</button><div id="pdfResult" class="result">Select a PDF file to convert</div></div></main>
+<footer class="site-footer"><div class="container"><p>© 2026 Free Tools Hub — Secure PDF to Word utility</p></div></footer>
+<script>document.getElementById('convertBtn').addEventListener('click',()=>{const file=document.getElementById('pdfInput').files[0];if(!file){document.getElementById('pdfResult').innerHTML='⚠️ Please select a PDF file first.';return;}if(file.type==='application/pdf

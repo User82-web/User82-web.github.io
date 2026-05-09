@@ -1,0 +1,323 @@
+<!-- 
+  ==================================================
+  FILE: tool-plagiarism-checker.html
+  DESCRIPTION: Plagiarism Checker - Compares text against sample database
+               and provides similarity percentage with highlighting.
+  ==================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Plagiarism Checker | Free Tools Hub</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: #0a0a0f; color: #eef2ff; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .site-header { background: #0a0a0f; border-bottom: 1px solid #2d2d44; padding: 16px 0; position: sticky; top: 0; z-index: 100; }
+    .header-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+    .logo h1 { font-size: 1.6rem; background: linear-gradient(135deg, #a855f7, #7c3aed); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .back-home { color: #a78bfa; text-decoration: none; padding: 8px 18px; border: 1px solid #7c3aed; border-radius: 40px; transition: 0.2s; }
+    .back-home:hover { background: #7c3aed20; color: #c084fc; }
+    .tool-hero { padding: 30px 0 20px; }
+    .tool-hero h2 { font-size: 2rem; background: linear-gradient(135deg, #c084fc, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
+    .tool-card { background: #111118; border-radius: 32px; border: 1px solid #2d2d44; padding: 32px; margin: 20px 0 50px; }
+    textarea { width: 100%; background: #0a0a0f; border: 1px solid #7c3aed; border-radius: 20px; padding: 18px; color: white; font-size: 1rem; font-family: inherit; margin: 15px 0; resize: vertical; }
+    textarea:focus { outline: none; border-color: #c084fc; box-shadow: 0 0 0 2px #7c3aed40; }
+    .btn-primary { background: #7c3aed; color: white; border: none; padding: 14px 32px; border-radius: 60px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 1rem; }
+    .btn-primary:hover { background: #a855f7; transform: scale(1.02); }
+    .btn-secondary { background: #1e1e30; color: #c084fc; border: 1px solid #7c3aed; padding: 12px 28px; border-radius: 60px; font-weight: 500; cursor: pointer; transition: 0.2s; margin-left: 12px; }
+    .btn-secondary:hover { background: #2d2d44; }
+    .result-container { background: #0e0e16; border-radius: 24px; padding: 24px; margin-top: 25px; border: 1px solid #2d2d44; }
+    .similarity-score { text-align: center; padding: 20px; border-radius: 20px; margin-bottom: 20px; }
+    .score-value { font-size: 3rem; font-weight: 800; }
+    .score-label { font-size: 0.9rem; color: #8a99b9; margin-top: 5px; }
+    .low { background: #064e3b20; border: 1px solid #10b981; color: #34d399; }
+    .medium { background: #b4530920; border: 1px solid #f59e0b; color: #fbbf24; }
+    .high { background: #991b1b20; border: 1px solid #ef4444; color: #f87171; }
+    .match-list { margin-top: 20px; }
+    .match-item { background: #1a1a2e; padding: 15px; border-radius: 16px; margin-bottom: 12px; border-left: 4px solid #7c3aed; }
+    .match-text { color: #e2e8f0; font-size: 0.9rem; margin-bottom: 8px; }
+    .match-percent { color: #c084fc; font-weight: 600; font-size: 0.85rem; }
+    .highlight { background-color: #7c3aed40; border-radius: 4px; padding: 2px 0; }
+    .stats-row { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; justify-content: space-between; }
+    .stat-box { background: #1a1a2e; padding: 15px 20px; border-radius: 20px; flex: 1; text-align: center; }
+    .stat-value { font-size: 1.5rem; font-weight: 700; color: #c084fc; }
+    .sample-db { margin-top: 20px; padding-top: 20px; border-top: 1px solid #2d2d44; }
+    .sample-db h4 { color: #c084fc; margin-bottom: 10px; }
+    .db-badge { display: inline-block; background: #1e1e30; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; margin: 3px; color: #a78bfa; }
+    .site-footer { background: #06060a; border-top: 1px solid #2d2d44; padding: 40px 0; text-align: center; margin-top: 40px; }
+    .flex-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
+    @media (max-width: 700px) {
+      .header-inner { flex-direction: column; }
+      .tool-card { padding: 20px; }
+      .stats-row { flex-direction: column; }
+      .score-value { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="logo"><h1>🛠️ Free Tools Hub</h1></div>
+    <a href="index.html" class="back-home">← Back to Tools</a>
+  </div>
+</header>
+
+<main class="container">
+  <div class="tool-hero">
+    <h2>🔍 Plagiarism Checker</h2>
+    <p>Check your text against millions of sources (simulated with smart comparison)</p>
+  </div>
+
+  <div class="tool-card">
+    <label style="font-weight: 600; margin-bottom: 8px; display: block;">📝 Enter your text to check:</label>
+    <textarea id="inputText" rows="6" placeholder="Paste your essay, article, or content here...&#10;&#10;Example: The quick brown fox jumps over the lazy dog. Artificial intelligence is transforming the world. Content creation has become easier with modern tools."></textarea>
+    
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-value" id="wordCount">0</div>
+        <div>Words</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="charCount">0</div>
+        <div>Characters</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="uniquePercent">0%</div>
+        <div>Unique Content</div>
+      </div>
+    </div>
+
+    <div class="flex-buttons">
+      <button class="btn-primary" id="checkBtn">🔍 Check Plagiarism</button>
+      <button class="btn-secondary" id="clearBtn">🗑️ Clear Text</button>
+      <button class="btn-secondary" id="sampleBtn">📋 Load Sample</button>
+    </div>
+
+    <div id="resultArea" class="result-container" style="display: none;">
+      <!-- Results will be injected here -->
+    </div>
+
+    <div class="sample-db">
+      <h4>📚 Reference Database (Simulated Sources)</h4>
+      <span class="db-badge">Academic Papers</span>
+      <span class="db-badge">Web Articles</span>
+      <span class="db-badge">Blog Posts</span>
+      <span class="db-badge">Wikipedia</span>
+      <span class="db-badge">News Sites</span>
+      <span class="db-badge">Research Journals</span>
+      <p style="font-size: 0.75rem; color: #6e7ea3; margin-top: 12px;">* Compares against built-in sample database + intelligent phrase matching. For production, integrate with external APIs.</p>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© 2026 Free Tools Hub — Advanced Plagiarism Detection Tool</p>
+  </div>
+</footer>
+
+<script>
+  // Sample reference database for comparison
+  const referenceDatabase = [
+    "The quick brown fox jumps over the lazy dog",
+    "Artificial intelligence is transforming the world",
+    "Content creation has become easier with modern tools",
+    "To be or not to be that is the question",
+    "The only thing we have to fear is fear itself",
+    "I have a dream that one day this nation will rise up",
+    "It was the best of times it was the worst of times",
+    "All that glitters is not gold",
+    "The journey of a thousand miles begins with a single step",
+    "Innovation distinguishes between a leader and a follower",
+    "Digital transformation is reshaping industries globally",
+    "Machine learning algorithms power modern recommendation systems",
+    "The future of work is remote and distributed",
+    "Sustainability is key for long term business success",
+    "Cybersecurity threats continue to evolve rapidly"
+  ];
+
+  // Function to get word frequency and similarity
+  function calculateSimilarity(text1, text2) {
+    const words1 = text1.toLowerCase().split(/\s+/);
+    const words2 = text2.toLowerCase().split(/\s+/);
+    const set1 = new Set(words1);
+    const set2 = new Set(words2);
+    const intersection = new Set([...set1].filter(x => set2.has(x)));
+    const union = new Set([...set1, ...set2]);
+    return intersection.size / union.size;
+  }
+
+  // Extract n-grams for better matching
+  function getNgrams(text, n = 3) {
+    const words = text.toLowerCase().split(/\s+/);
+    const ngrams = [];
+    for (let i = 0; i <= words.length - n; i++) {
+      ngrams.push(words.slice(i, i + n).join(' '));
+    }
+    return ngrams;
+  }
+
+  function checkPlagiarism() {
+    const inputText = document.getElementById('inputText').value.trim();
+    
+    if (!inputText) {
+      alert('Please enter some text to check for plagiarism.');
+      return;
+    }
+
+    if (inputText.length < 20) {
+      alert('Please enter more text (at least 20 characters) for accurate checking.');
+      return;
+    }
+
+    const inputWords = inputText.toLowerCase().split(/\s+/);
+    const inputNgrams = getNgrams(inputText, 3);
+    
+    let matches = [];
+    
+    // Compare with each reference
+    referenceDatabase.forEach((ref, index) => {
+      const refLower = ref.toLowerCase();
+      const similarity = calculateSimilarity(inputText, refLower);
+      const refNgrams = getNgrams(ref, 3);
+      
+      // Find common n-grams
+      const commonNgrams = inputNgrams.filter(ng => refNgrams.includes(ng));
+      const ngramMatchPercent = (commonNgrams.length / Math.max(inputNgrams.length, 1)) * 100;
+      
+      // Find common phrases
+      let commonPhrases = [];
+      commonNgrams.forEach(ng => {
+        if (ng.length > 10) {
+          commonPhrases.push(ng);
+        }
+      });
+      
+      if (similarity > 0.1 || ngramMatchPercent > 5) {
+        matches.push({
+          source: ref.substring(0, 80) + (ref.length > 80 ? '...' : ''),
+          similarity: Math.min(Math.max(similarity * 100, ngramMatchPercent * 0.7), 95),
+          matchedPhrases: commonPhrases.slice(0, 2)
+        });
+      }
+    });
+    
+    // Sort by similarity descending
+    matches.sort((a, b) => b.similarity - a.similarity);
+    
+    // Calculate overall plagiarism score
+    let totalSimilarity = 0;
+    matches.forEach(m => totalSimilarity += m.similarity);
+    const avgSimilarity = matches.length > 0 ? totalSimilarity / matches.length : 0;
+    const plagiarismPercent = Math.min(Math.round(avgSimilarity), 95);
+    const uniquePercent = 100 - plagiarismPercent;
+    
+    // Update unique percent display
+    document.getElementById('uniquePercent').innerText = uniquePercent + '%';
+    
+    // Determine score class
+    let scoreClass = 'low';
+    let scoreMessage = '';
+    if (plagiarismPercent < 20) {
+      scoreClass = 'low';
+      scoreMessage = '✅ Excellent! Low similarity detected. Your content appears to be original.';
+    } else if (plagiarismPercent < 40) {
+      scoreClass = 'medium';
+      scoreMessage = '⚠️ Moderate similarity. Some phrases match existing sources. Consider revising.';
+    } else {
+      scoreClass = 'high';
+      scoreMessage = '❌ High similarity detected. Significant portions match existing content. Rewriting recommended.';
+    }
+    
+    // Build HTML result
+    let matchesHtml = '';
+    if (matches.length > 0) {
+      matchesHtml = '<h4 style="margin-bottom: 15px;">📋 Matching Sources Found:</h4>';
+      matches.slice(0, 5).forEach(match => {
+        matchesHtml += `
+          <div class="match-item">
+            <div class="match-text">"${match.source}"</div>
+            <div class="match-percent">🔗 ${Math.round(match.similarity)}% similarity</div>
+            ${match.matchedPhrases.length > 0 ? `<div style="font-size:0.75rem; color:#a78bfa; margin-top:6px;">Matched phrase: "${match.matchedPhrases[0]}"</div>` : ''}
+          </div>
+        `;
+      });
+    } else {
+      matchesHtml = '<p style="color: #34d399;">✨ No direct matches found! Your content appears to be original.</p>';
+    }
+    
+    // Highlight potential plagiarized parts in input text
+    let highlightedText = inputText;
+    matches.forEach(match => {
+      const phrases = match.matchedPhrases;
+      phrases.forEach(phrase => {
+        const regex = new RegExp(`(${phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+        highlightedText = highlightedText.replace(regex, '<mark class="highlight">$1</mark>');
+      });
+    });
+    
+    const resultHtml = `
+      <div class="similarity-score ${scoreClass}">
+        <div class="score-value">${plagiarismPercent}%</div>
+        <div class="score-label">Plagiarism Score</div>
+        <div style="margin-top: 10px; font-size: 0.9rem;">${scoreMessage}</div>
+      </div>
+      ${matchesHtml}
+      <div style="margin-top: 20px;">
+        <h4 style="margin-bottom: 10px;">📊 Analysis Details:</h4>
+        <p style="color: #cbd5e6; font-size: 0.85rem;">• Total words analyzed: ${inputWords.length}<br>
+        • Unique content: ${uniquePercent}%<br>
+        • Sources checked: ${referenceDatabase.length}<br>
+        • Matches found: ${matches.length}</p>
+      </div>
+      <div style="margin-top: 20px; background: #0a0a0f; padding: 15px; border-radius: 16px;">
+        <h4 style="margin-bottom: 8px;">📝 Your Text with Highlights:</h4>
+        <div style="color: #e2e8f0; font-size: 0.85rem; line-height: 1.5;">${highlightedText}</div>
+        <p style="font-size: 0.7rem; color: #6e7ea3; margin-top: 10px;">* Highlighted portions show potential matches with existing sources.</p>
+      </div>
+    `;
+    
+    const resultArea = document.getElementById('resultArea');
+    resultArea.innerHTML = resultHtml;
+    resultArea.style.display = 'block';
+    
+    // Scroll to results
+    resultArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  
+  function updateStats() {
+    const text = document.getElementById('inputText').value;
+    const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+    const chars = text.length;
+    document.getElementById('wordCount').innerText = words;
+    document.getElementById('charCount').innerText = chars;
+  }
+  
+  function clearText() {
+    document.getElementById('inputText').value = '';
+    updateStats();
+    document.getElementById('resultArea').style.display = 'none';
+    document.getElementById('uniquePercent').innerText = '0%';
+  }
+  
+  function loadSample() {
+    const sample = `Artificial intelligence is transforming the world. The quick brown fox jumps over the lazy dog. Digital transformation is reshaping industries globally. Content creation has become easier with modern tools. Machine learning algorithms power modern recommendation systems. The future of work is remote and distributed.`;
+    document.getElementById('inputText').value = sample;
+    updateStats();
+    document.getElementById('resultArea').style.display = 'none';
+  }
+  
+  // Event listeners
+  document.getElementById('checkBtn').addEventListener('click', checkPlagiarism);
+  document.getElementById('clearBtn').addEventListener('click', clearText);
+  document.getElementById('sampleBtn').addEventListener('click', loadSample);
+  document.getElementById('inputText').addEventListener('input', updateStats);
+  
+  // Initial update
+  updateStats();
+</script>
+</body>
+</html>

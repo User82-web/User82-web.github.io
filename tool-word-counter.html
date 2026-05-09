@@ -1,0 +1,18 @@
+<!-- 
+  ==================================================
+  FILE: tool-word-counter.html
+  DESCRIPTION: Word & Character Counter Tool
+  ==================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Word Counter | Free Tools Hub</title><style>
+*{margin:0;padding:0;box-sizing:border-box;}body{background:#0a0a0f;color:#eef2ff;font-family:'Inter',sans-serif;}.container{max-width:1000px;margin:0 auto;padding:0 24px;}.site-header{background:#0a0a0f;border-bottom:1px solid #2d2d44;padding:16px 0;}.header-inner{display:flex;justify-content:space-between;align-items:center;}.logo h1{font-size:1.6rem;background:linear-gradient(135deg,#a855f7,#7c3aed);-webkit-background-clip:text;background-clip:text;color:transparent;}.back-home{color:#a78bfa;text-decoration:none;padding:8px 18px;border:1px solid #7c3aed;border-radius:40px;}.tool-card{background:#111118;border-radius:32px;border:1px solid #2d2d44;padding:40px;margin:30px 0 60px;}textarea{width:100%;background:#0a0a0f;border:1px solid #7c3aed;border-radius:24px;padding:18px;color:white;font-size:1rem;margin:20px 0;}.stats{background:#0e0e16;border-radius:24px;padding:20px;display:flex;gap:30px;flex-wrap:wrap;}.stat-card{flex:1;background:#1a1a2e;padding:16px;border-radius:20px;text-align:center;}.stat-card h3{color:#c084fc;font-size:2rem;}.site-footer{background:#06060a;padding:40px 0;text-align:center;border-top:1px solid #2d2d44;margin-top:40px;}</style></head>
+<body>
+<header class="site-header"><div class="container header-inner"><div class="logo"><h1>🛠️ Free Tools Hub</h1></div><a href="index.html" class="back-home">← Back to Tools</a></div></header>
+<main class="container"><h2 style="margin:30px 0 5px">📝 Word & Character Counter</h2><p>Real-time writing analytics: words, characters, sentences</p>
+<div class="tool-card"><textarea id="textInput" rows="7" placeholder="Start typing your text here..."></textarea><div class="stats"><div class="stat-card"><h3 id="wordCount">0</h3><p>Words</p></div><div class="stat-card"><h3 id="charCount">0</h3><p>Characters</p></div><div class="stat-card"><h3 id="sentenceCount">0</h3><p>Sentences</p></div></div></div></main>
+<footer class="site-footer"><div class="container"><p>© 2026 Free Tools Hub — Instant text analysis tool</p></div></footer>
+<script>const textarea=document.getElementById('textInput');const wordSpan=document.getElementById('wordCount');const charSpan=document.getElementById('charCount');const sentSpan=document.getElementById('sentenceCount');function update(){let txt=textarea.value;let words=txt.trim()===''?0:txt.trim().split(/\s+/).length;let chars=txt.length;let sentences=(txt.match(/[.!?]+/g)||[]).length;if(txt.trim()!=='' && sentences===0)sentences=1;wordSpan.innerText=words;charSpan.innerText=chars;sentSpan.innerText=sentences;}textarea.addEventListener('input',update);update();</script>
+</body>
+</html>
